@@ -1,0 +1,35 @@
+containers:
+  main:
+    setup:
+      - !Ubuntu xenial
+      - !UbuntuUniverse
+      - !Install
+        - wget
+        - ca-certificates
+        - python-dev
+        - pandoc
+      - !PipConfig
+        dependencies: true
+        python-exe: python3.5
+      - !Py3Install
+        - pip
+        - jupyter
+        - matplotlib
+        - numpy
+        - pandas
+        - seaborn
+    volumes:
+      /root: !Tmpfs
+        size: 10M
+        mode: 0o766
+
+commands:
+  run: !Command
+    description: Run the ipython notebook
+    container: main
+    run:
+      - jupyter
+      - notebook
+      - --config=/work/jupyter_notebook_config.py
+
+#  vim: set ts=2 sw=2 sts=2 tw=0 et :
